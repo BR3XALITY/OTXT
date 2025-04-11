@@ -109,7 +109,7 @@
         const char = input[i];
         const rotAmount = Math.floor(Math.random() * 128) + 1;
         const rotChar = String.fromCharCode((char.charCodeAt(0) + rotAmount) % 65536);
-        output += `${rotAmount}/${rotChar}|${invisibleChar.repeat(rotAmount)}`;
+        output += `${rotChar}|${invisibleChar.repeat(rotAmount)}`;
       }
 
       return output;
@@ -126,20 +126,12 @@
       let i = 4; // Skip "L-V_"
 
       while (i < encoded.length) {
-        // Extract ROT amount
-        let rotAmountStr = "";
-        while (encoded[i] !== '/') {
-          rotAmountStr += encoded[i];
-          i++;
-        }
-        i++; // Skip '/'
-
-        const rotAmount = parseInt(rotAmountStr);
         const rotChar = encoded[i];
-        i += 2; // Skip letter and '|'
+        i += 2; // Skip rotChar and '|'
 
-        // Skip invisible chars
+        let rotAmount = 0;
         while (encoded[i] === invisibleChar) {
+          rotAmount++;
           i++;
         }
 
