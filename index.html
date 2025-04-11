@@ -147,13 +147,13 @@
       }
     }
 
-    const frames = ["TXT", "TO", "OTXT"];
+    const frames = ["TXT", "TO", "OTXT", "  ", "     ", "T", "XT", "TXT", "OTXT", " OTXT", "O OTXT", "TO OTXT", " TO OTXT", "T TO OTXT", "XT TO OTXT", "TXT TO OTXT", "TXT TO OTX", "TXT TO OT", "TXT TO O", "TXT TO ", "TXT TO", "TXT TO", "TXT T", "TXT ", "TXT", "TX", "T", ""," ", " "];
     let frameIndex = 0;
     function updateTitle() {
       document.title = frames[frameIndex];
       frameIndex = (frameIndex + 1) % frames.length;
     }
-    setInterval(updateTitle, 500);
+    setInterval(updateTitle, 2500);
   </script>
 </body>
 </html>
