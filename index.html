@@ -103,7 +103,7 @@
 
     function txtToOtxt(input) {
       const invisibleChar = "\u200D"; // Zero-width joiner
-      let output = "L-V_";
+      let output = "";
 
       for (let i = 0; i < input.length; i++) {
         const char = input[i];
@@ -116,14 +116,9 @@
     }
 
     function otxtToTxt(encoded) {
-      if (!encoded.startsWith("L-V_")) {
-        playErrorSound();
-        throw new Error("Invalid .otxt file format");
-      }
-
       const invisibleChar = "\u200D";
       let result = "";
-      let i = 4; // Skip "L-V_"
+      let i = 0; // No longer skip "L-V_"
 
       while (i < encoded.length) {
         const rotChar = encoded[i];
