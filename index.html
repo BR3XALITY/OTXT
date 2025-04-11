@@ -1,1 +1,172 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>TXT</title><style>body{font-family:Arial,sans-serif;background:linear-gradient(to bottom,#a2c2e2,#002f6c);margin:0;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;overflow-x:hidden;color:#fff}.container{width:80%;max-width:1200px;background:#fff;color:#000;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1);padding:20px;margin-bottom:30px;max-height:90vh;overflow-y:auto}h1{color:#002f6c;margin:20px 0}textarea{width:calc(100% - 20px);height:150px;margin-bottom:10px;padding:10px;border-radius:4px;border:1px solid #ddd;box-sizing:border-box;font-size:14px;resize:none}button{background-color:#007bff;color:#fff;border:none;padding:10px 20px;border-radius:4px;cursor:pointer;font-size:16px;transition:background-color 0.3s ease,transform 0.25s ease}button:hover{background-color:#0056b3}button:active{transform:scale(1.1)}.section{margin-bottom:40px}</style></head><body><audio id="clickSound" src="click.wav" preload="auto"></audio><audio id="errorSound" src="error.mp3" preload="auto"></audio><div class="container"><h1>Convert Text to .otxt</h1><div class="section"><textarea id="plainText" placeholder="Enter your text here..."></textarea><br><button onclick="playClickSound(); document.getElementById('otxtOutput').value = txtToOtxt(document.getElementById('plainText').value);">Convert to .otxt</button><textarea id="otxtOutput" placeholder=".otxt output will appear here..."></textarea></div></div><div class="container"><h1>Convert .otxt to Text</h1><div class="section"><textarea id="otxtInput" placeholder="Paste your .otxt content here..."></textarea><br><button onclick="playClickSound(); convertOtxt();">Convert to Text</button><textarea id="plainTextOutput" placeholder="Plain text output will appear here..."></textarea></div></div><script>function playClickSound(){const e=document.getElementById('clickSound');e.currentTime=0;e.play()}function playErrorSound(){const e=document.getElementById('errorSound');e.currentTime=0;e.play()}function txtToOtxt(e){let t="L-V_";for(let o=0;o<e.length;o++)t+=String.fromCharCode(e.charCodeAt(o)+1);return t}function otxtToTxt(e){if(!e.startsWith("L-V_")){playErrorSound();throw new Error("Invalid .otxt file format")}let t="";for(let o=4;o<e.length;o++)t+=String.fromCharCode(e.charCodeAt(o)-1);return t}function convertOtxt(){try{let e=document.getElementById('otxtInput').value,t=otxtToTxt(e);document.getElementById('plainTextOutput').value=t}catch(e){document.getElementById('plainTextOutput').value=""}}const frames=["TXT","TO","OTXT"];let frameIndex=0;function updateTitle(){document.title=frames[frameIndex];frameIndex=(frameIndex+1)%frames.length}setInterval(updateTitle,250)</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TXT</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #a2c2e2, #002f6c);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #fff;
+    }
+    .container {
+      width: 80%;
+      max-width: 1200px;
+      background: #fff;
+      color: #000;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 30px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    h1 {
+      color: #002f6c;
+      margin: 20px 0;
+    }
+    textarea {
+      width: calc(100% - 20px);
+      height: 150px;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      box-sizing: border-box;
+      font-size: 14px;
+      resize: none;
+    }
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.25s ease;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    button:active {
+      transform: scale(1.1);
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+  <audio id="clickSound" src="click.wav" preload="auto"></audio>
+  <audio id="errorSound" src="error.mp3" preload="auto"></audio>
+
+  <div class="container">
+    <h1>Convert Text to .otxt</h1>
+    <div class="section">
+      <textarea id="plainText" placeholder="Enter your text here..."></textarea><br />
+      <button onclick="playClickSound(); document.getElementById('otxtOutput').value = txtToOtxt(document.getElementById('plainText').value);">Convert to .otxt</button>
+      <textarea id="otxtOutput" placeholder=".otxt output will appear here..."></textarea>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Convert .otxt to Text</h1>
+    <div class="section">
+      <textarea id="otxtInput" placeholder="Paste your .otxt content here..."></textarea><br />
+      <button onclick="playClickSound(); convertOtxt();">Convert to Text</button>
+      <textarea id="plainTextOutput" placeholder="Plain text output will appear here..."></textarea>
+    </div>
+  </div>
+
+  <script>
+    function playClickSound() {
+      const e = document.getElementById('clickSound');
+      e.currentTime = 0;
+      e.play();
+    }
+
+    function playErrorSound() {
+      const e = document.getElementById('errorSound');
+      e.currentTime = 0;
+      e.play();
+    }
+
+    function txtToOtxt(input) {
+      const invisibleChar = "\u200D"; // Zero-width joiner
+      let output = "L-V_";
+
+      for (let i = 0; i < input.length; i++) {
+        const char = input[i];
+        const rotAmount = Math.floor(Math.random() * 128) + 1;
+        const rotChar = String.fromCharCode((char.charCodeAt(0) + rotAmount) % 65536);
+        output += `${rotAmount}/${rotChar}|${invisibleChar.repeat(rotAmount)}`;
+      }
+
+      return output;
+    }
+
+    function otxtToTxt(encoded) {
+      if (!encoded.startsWith("L-V_")) {
+        playErrorSound();
+        throw new Error("Invalid .otxt file format");
+      }
+
+      const invisibleChar = "\u200D";
+      let result = "";
+      let i = 4; // Skip "L-V_"
+
+      while (i < encoded.length) {
+        // Extract ROT amount
+        let rotAmountStr = "";
+        while (encoded[i] !== '/') {
+          rotAmountStr += encoded[i];
+          i++;
+        }
+        i++; // Skip '/'
+
+        const rotAmount = parseInt(rotAmountStr);
+        const rotChar = encoded[i];
+        i += 2; // Skip letter and '|'
+
+        // Skip invisible chars
+        while (encoded[i] === invisibleChar) {
+          i++;
+        }
+
+        const originalChar = String.fromCharCode((rotChar.charCodeAt(0) - rotAmount + 65536) % 65536);
+        result += originalChar;
+      }
+
+      return result;
+    }
+
+    function convertOtxt() {
+      try {
+        let input = document.getElementById('otxtInput').value;
+        let decoded = otxtToTxt(input);
+        document.getElementById('plainTextOutput').value = decoded;
+      } catch (err) {
+        document.getElementById('plainTextOutput').value = "";
+      }
+    }
+
+    const frames = ["TXT", "TO", "OTXT"];
+    let frameIndex = 0;
+    function updateTitle() {
+      document.title = frames[frameIndex];
+      frameIndex = (frameIndex + 1) % frames.length;
+    }
+    setInterval(updateTitle, 250);
+  </script>
+</body>
+</html>
